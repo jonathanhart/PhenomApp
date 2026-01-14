@@ -17,6 +17,8 @@ import { useAppTheme } from "@/theme/context"
 import { DemoNavigator } from "./DemoNavigator"
 import type { AppStackParamList, NavigationProps } from "./navigationTypes"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import { SignInScreen } from "../screens/SignInScreen"
+import { SignUpScreen } from "../screens/SignUpScreen"
 
 /**
  * This is a list of all the route names that will exit the app if the back button
@@ -24,8 +26,14 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  */
 const exitRoutes = Config.exitRoutes
 
+export type RootStackParamList = {
+  SignIn: undefined
+  SignUp: undefined
+  // keep/add your existing routes here too
+}
+
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
-const Stack = createNativeStackNavigator<AppStackParamList>()
+const Stack = createNativeStackNavigator<RootStackParamList>()
 
 const AppStack = () => {
   const { isAuthenticated } = useAuth()
@@ -43,7 +51,7 @@ const AppStack = () => {
           backgroundColor: colors.background,
         },
       }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"}
+      initialRouteName={isAuthenticated ? "Welcome" : "SignIn"}
     >
       {isAuthenticated ? (
         <>
@@ -53,7 +61,8 @@ const AppStack = () => {
         </>
       ) : (
         <>
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
         </>
       )}
 
